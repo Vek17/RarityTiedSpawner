@@ -19,8 +19,10 @@ namespace RarityTiedSpawner {
                     string jdata = reader.ReadToEnd();
                     settings = JsonConvert.DeserializeObject<Settings>(jdata);
                 }
-                modLog = new DeferringLogger(modDirectory, "RarityTiedSpawner", "RTS", settings.debug, settings.trace);
+                modLog = new DeferringLogger(modDirectory, "RarityTiedSpawner", "RTS", settings.Debug, settings.Trace);
                 modLog.Debug?.Write($"Loaded settings from {modDir}/settings.json. Version {typeof(Settings).Assembly.GetName().Version}");
+                modLog.Debug?.Write($"ExcludeTag: {settings.ExcludeTag}");
+                modLog.Debug?.Write($"DynamicTag: {settings.DynamicTag}");
             } catch (Exception e) {
                 settings = new Settings();
                 modLog = new DeferringLogger(modDir, "RarityTiedSpawner", "RTS", true, true);
