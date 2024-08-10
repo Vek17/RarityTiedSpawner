@@ -122,10 +122,10 @@ namespace RarityTiedSpawner {
             private Dictionary<string, List<Tag_MDD>> MechTagCache;
 
             private static Regex EndNumberPattern = new Regex(@"-?\d+$", RegexOptions.Compiled);
-            private static Regex NegativePattern = new Regex($"^{RTS.settings.ExcludeTag}_.+{RTS.settings.DynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static Regex PositiveTagPattern = new Regex($"^.+_{RTS.settings.DynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static Regex TagPattern = new Regex($"^{RTS.settings.DynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            private static Regex DynamicTagPattern = new Regex($"{RTS.settings.DynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            private static Regex NegativePattern = new Regex($"^{RTS.settings.excludeTag}_.+{RTS.settings.dynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            private static Regex PositiveTagPattern = new Regex($"^.+_{RTS.settings.dynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            private static Regex TagPattern = new Regex($"^{RTS.settings.dynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            private static Regex DynamicTagPattern = new Regex($"{RTS.settings.dynamicTag}_-?\\d+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
             public long timeUsed = 0;
 
@@ -141,7 +141,7 @@ namespace RarityTiedSpawner {
 
             private TagCache() {
                 NonTagCachhe = new HashSet<string>();
-                MoreCommonTags = RTS.settings.MoreCommonTags;
+                MoreCommonTags = RTS.settings.moreCommonTags;
                 GenericTags = new Dictionary<string, Regex>();
                 NumberStrings = new Dictionary<string, int> {
                     { "0", 0 },
@@ -171,11 +171,7 @@ namespace RarityTiedSpawner {
                 MechTagCache = new Dictionary<string, List<Tag_MDD>>();
             }
 
-            public int GetNumberToAdd(UnitDef_MDD unitDef, TagSet requiredTags, TagSet excludedTags, bool logTime = false) {
-                var stopwatch = new Stopwatch();
-                if (logTime) {
-                    stopwatch.Start();
-                }
+            public int GetNumberToAdd(UnitDef_MDD unitDef, TagSet requiredTags, TagSet excludedTags) {
                 int toAdd = 0;
 
                 if (!MechTagCache.ContainsKey(unitDef.UnitDefID)) {
@@ -266,10 +262,6 @@ namespace RarityTiedSpawner {
                         continue;
                     }
                 }
-                if (logTime) { 
-                    stopwatch.Stop();
-                    timeUsed += stopwatch.ElapsedMilliseconds;
-                }
                 return toAdd;
             }
         }
@@ -286,8 +278,8 @@ namespace RarityTiedSpawner {
                 int toAdd = 0;
 
                 foreach (Tag_MDD tag in unitDef.TagSetEntry.Tags) {
-                    if (s.MoreCommonTags.ContainsKey(tag.Name)) {
-                        toAdd += s.MoreCommonTags[tag.Name];
+                    if (s.moreCommonTags.ContainsKey(tag.Name)) {
+                        toAdd += s.moreCommonTags[tag.Name];
                     }
                 }
                 numberToAddCache[unitDef.UnitDefID] = toAdd;
@@ -299,7 +291,7 @@ namespace RarityTiedSpawner {
                     TagBreakdown.Instance = new TagBreakdown(__result.Count, requiredTags, excludedTags, companyTags);
                     foreach (UnitDef_MDD unitDef in __result.ToArray()) {
                         //int toAdd = numberToAdd(unitDef);
-                        int toAdd = TagCache.Instance.GetNumberToAdd(unitDef, requiredTags, excludedTags, true);
+                        int toAdd = TagCache.Instance.GetNumberToAdd(unitDef, requiredTags, excludedTags);
                         TagBreakdown.Instance.AddUnit(unitDef);
                         if (toAdd > 0) {
                             for (int i = 0; i < toAdd; i++) {
