@@ -268,24 +268,6 @@ namespace RarityTiedSpawner {
 
         [HarmonyPatch(typeof(TagSetQueryExtensions), "GetMatchingUnitDefs")]
         public static class TagSetQueryExtensions_GetMatchingUnitDefs {
-            private static Dictionary<string, int> numberToAddCache = new Dictionary<string, int>();
-            public static int numberTsoAdd(UnitDef_MDD unitDef) {
-                if (numberToAddCache.ContainsKey(unitDef.UnitDefID)) {
-                    return numberToAddCache[unitDef.UnitDefID];
-                }
-
-                Settings s = RTS.settings;
-                int toAdd = 0;
-
-                foreach (Tag_MDD tag in unitDef.TagSetEntry.Tags) {
-                    if (s.moreCommonTags.ContainsKey(tag.Name)) {
-                        toAdd += s.moreCommonTags[tag.Name];
-                    }
-                }
-                numberToAddCache[unitDef.UnitDefID] = toAdd;
-                return toAdd;
-            }
-
             private static void Postfix(ref List<UnitDef_MDD> __result, TagSet requiredTags, TagSet excludedTags, TagSet companyTags) {
                 try {
                     TagBreakdown.Instance = new TagBreakdown(__result.Count, requiredTags, excludedTags, companyTags);
