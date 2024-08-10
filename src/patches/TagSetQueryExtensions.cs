@@ -69,7 +69,7 @@ namespace RarityTiedSpawner {
                 StringBuilder builder = new StringBuilder();
                 List<KeyValuePair<string, Dictionary<string, int>>> sortedUnits = new();
                 builder.AppendLine();
-                builder.Append("----------------------------------------------------------------------");
+                builder.Append("----------------------------------------------------------------------------------------------------");
                 builder.AppendLine();
                 builder.AppendFormat("Old Length: {0} | New Length: {1}", OldLength, TotalUnits);
                 builder.AppendLine();
@@ -77,7 +77,7 @@ namespace RarityTiedSpawner {
                 builder.AppendLine();
                 builder.AppendFormat("Excluded Tags: {0}", string.Join(", ", ExcludedTags.items));
                 builder.AppendLine();
-                builder.Append("----------------------------------------------------------------------");
+                builder.Append("----------------------------------------------------------------------------------------------------");
                 builder.AppendLine();
 
                 sortedUnits.AddRange(Units.AsEnumerable());
@@ -93,16 +93,17 @@ namespace RarityTiedSpawner {
                     }
                     builder.AppendLine();
                 }
-                builder.Append("----------------------------------------------------------------------");
+                builder.Append("----------------------------------------------------------------------------------------------------");
                 builder.AppendLine();
-                builder.AppendFormat("Selected: {0} - ({1}/{2}) | ({3}/{4})", 
+                builder.AppendFormat("Selected: {0} - {1} | ({2}/{3}) | ({4}/{5})",
+                    Selected.FriendlyName,
                     Selected.UnitDefID,
                     ((double)GetUnitCount(Selected.FriendlyName) / (double)TotalUnits).ToString("p2", numberInfo),
                     ((double)Units[Selected.FriendlyName][Selected.UnitDefID] / (double)TotalUnits).ToString("p2", numberInfo),
                     GetUnitCount(Selected.FriendlyName),
                     Units[Selected.FriendlyName][Selected.UnitDefID]);
                 builder.AppendLine();
-                builder.Append("----------------------------------------------------------------------");
+                builder.Append("----------------------------------------------------------------------------------------------------");
                 builder.AppendLine();
                 return builder.ToString();
             }
