@@ -21,8 +21,6 @@ namespace RarityTiedSpawner {
                 }
                 modLog = new DeferringLogger(modDirectory, "RarityTiedSpawner", "RTS", settings.debug, settings.trace);
                 modLog.Debug?.Write($"Loaded settings from {modDir}/settings.json. Version {typeof(Settings).Assembly.GetName().Version}");
-                modLog.Debug?.Write($"ExcludeTag: {settings.excludeTag}");
-                modLog.Debug?.Write($"DynamicTag: {settings.dynamicTag}");
             } catch (Exception e) {
                 settings = new Settings();
                 modLog = new DeferringLogger(modDir, "RarityTiedSpawner", "RTS", true, true);
