@@ -167,7 +167,6 @@ namespace RarityTiedSpawner {
                 try {
                     RTS.modLog.Info?.Write($"Old Length: {__result.Count}");
                     foreach (UnitDef_MDD unitDef in __result.ToArray()) {
-                        //int toAdd = numberToAdd(unitDef);
                         int toAdd = TagCache.Instance.GetNumberToAdd(unitDef, requiredTags, excludedTags);
                         if (toAdd > 0) {
                             RTS.modLog.Info?.Write($"Possible unit: {unitDef.UnitDefID}. Adding {toAdd} to list.");
