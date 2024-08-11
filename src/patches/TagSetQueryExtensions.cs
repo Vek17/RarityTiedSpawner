@@ -1,14 +1,8 @@
 using BattleTech.Data;
-using BattleTech.Framework;
 using Harmony;
 using HBS.Collections;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RarityTiedSpawner {
